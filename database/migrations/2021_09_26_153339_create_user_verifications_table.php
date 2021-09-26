@@ -15,7 +15,15 @@ class CreateUserVerificationsTable extends Migration
     {
         Schema::create('user_verifications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable(true);
+            $table->string('token', 150);
+            $table->enum('type', ['reset', 'email', 'login']);
+            $table->unsignedInteger('time')->default('30');
             $table->timestamps();
+
+//            Foreign key constrain
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('SET NULL')->onUpdate('CASCADE');
         });
     }
 

@@ -15,7 +15,16 @@ class CreateUserPaymentsTable extends Migration
     {
         Schema::create('user_payments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable(true);
+            $table->unsignedBigInteger('plan_id')->nullable(true);
+            $table->unsignedInteger('no_of_accounts');
             $table->timestamps();
+
+//            Foreign key constrain
+            $table->foreign('plan_id')->references('id')->on('plans')
+                ->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('SET NULL')->onUpdate('CASCADE');
         });
     }
 

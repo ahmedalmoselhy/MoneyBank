@@ -15,7 +15,15 @@ class CreateUserTokensTable extends Migration
     {
         Schema::create('user_tokens', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable(true);
+            $table->string('token', 150);
+            $table->enum('type', ['remember', 'api']);
+            $table->unsignedInteger('time')->default('30');
             $table->timestamps();
+
+//            Foreign key constrain
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('SET NULL')->onUpdate('CASCADE');
         });
     }
 
