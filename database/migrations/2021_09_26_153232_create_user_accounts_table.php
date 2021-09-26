@@ -15,7 +15,14 @@ class CreateUserAccountsTable extends Migration
     {
         Schema::create('user_accounts', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 100);
+            $table->float('balance')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable(true);
             $table->timestamps();
+
+//            Foreign key constrain
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('SET NULL')->onUpdate('CASCADE');
         });
     }
 
